@@ -14,6 +14,9 @@ app.get('/', (req, res) => {
 	res.render('index')
 })
 
+app.get('/adduser', (req, res) => {
+	res.render('adduser')
+})
 //Listen on port 3000
 server = app.listen(3000)
 
@@ -48,7 +51,8 @@ chat = io.of('/chat').on('connection', (socket) => {
         //broadcast the new message
         console.log("Sending: " + data.message + " to " + data.to + " from " + data.from);
         if (clients[data.to]){
-            chat.connected[clients[data.to].socket].emit("new_message", {message : data.message, username : data.from});
+            chat.connected[clients[data.to].socket].emit("new_message", {message : data.message, username : data.from, isSender : false});
+            chat.connected[clients[data.from].socket].emit("new_message", {message : data.message, username : data.to, isSender : true});
         } else {
             console.log("User does not exist: " + data.to); 
         }

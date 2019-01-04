@@ -92,3 +92,35 @@ p.message {
 .message:nth-child(odd) {
     background-color: #81BEF7;
 }
+
+.column {
+    float: left;
+    width: 50%;
+    padding: 10px; 
+}
+
+#content-col, .column {
+    float: left;
+    width: 80%;
+    padding: 10px;
+    height: 95vh;
+}
+
+#user-col,#users-list, .column {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    height: 95vh;
+}
+
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .users {
+    height: auto;
+  }

@@ -25,7 +25,12 @@ $(function(){
 	socket.on("new_message", (data) => {
 		feedback.html('');
 		message.val('');
-		chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
+		if(data.isSender) {
+			chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
+		}
+		else {
+			chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
+		}
 	})
 
 	//Emit a username
@@ -34,7 +39,11 @@ $(function(){
 	})
 
 	socket.on("userlist",(data)=> {
-		users.html("<p class='users'>" + data.clients+"</p>")
+		var clients=JSON.parse(data.clients);
+		users.html('');
+		clients.forEach(element => {
+			users.append("<div class='column users' style='width:100%'>" + element+"</div>")	
+		});
 	})
 	//Emit typing
 	message.bind("keypress", () => {
