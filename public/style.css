@@ -108,9 +108,11 @@ p.message {
 
 #user-col,#users-list, .column {
     float: left;
-    width: 20%;
     padding: 10px;
     height: 95vh;
+}
+#user-col {
+    width: 20%;
 }
 
   
