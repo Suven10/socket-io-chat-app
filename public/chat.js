@@ -26,16 +26,37 @@ $(function(){
 
 	//Listen on new_message
 	socket.on("new_message", (data) => {
-
-		//var feedback=$('#feedback-'+to+'-'+data.username);
-		feedback.html('');
+		var feedbackfrom=$('#feedback-'+data.to+'-'+data.username);
+		var feedbackto=$('#feedback-'+data.username+'-'+data.to);
+		var chatroomfrom=$('#chatroom-'+data.to+'-'+data.username);
+		var chatroomto=$('#chatroom-'+data.username+'-'+data.to);
+		var input = $("#hidden-sec"), nextElement = input.next();
+		var feedbacksec = '<section id="feedback-'+data.to+'-'+data.username+'"></section>';
+		$('[id^="feedback-"]').hide();
+		$('[id^="chatroom-"]').hide();
+		$(feedbackfrom).show();
+		$(feedbackto).show();
+		$(chatroomfrom).show();
+		$(chatroomto).show();
 		message.val('');
-		if(data.isSender) {
-			chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
+		if($(nextElement).is(feedbackfrom) || $(nextElement).is(feedbackto)) {
+			nextElement.html('');
+			nextElement.next().append("<p class='message'>" + data.username + ": " + data.message + "</p>");
 		}
 		else {
-			chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
+			$(input).after(feedbacksec);
+			var chatroomsec = '<section id="chatroom-'+data.to+'-'+data.username+'"><p class="message">'
+			+ data.username +': '+ data.message + '</p></section>';
+			var tempfeedback=input.next();
+			$(tempfeedback).after(chatroomsec);
 		}
+		
+		// if(data.isSender) {
+		// 	chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
+		// }
+		// else {
+		// 	chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
+		// }
 	})
 
 	//Emit a username

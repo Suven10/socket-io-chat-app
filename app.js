@@ -51,8 +51,8 @@ chat = io.of('/chat').on('connection', (socket) => {
         //broadcast the new message
         console.log("Sending: " + data.message + " to " + data.to + " from " + data.from);
         if (clients[data.to]){
-            chat.connected[clients[data.to].socket].emit("new_message", {message : data.message, username : data.from, isSender : false});
-            chat.connected[clients[data.from].socket].emit("new_message", {message : data.message, username : data.from, isSender : true});
+            chat.connected[clients[data.to].socket].emit("new_message", {message : data.message, username : data.from, isSender : false, to :data.to});
+            chat.connected[clients[data.from].socket].emit("new_message", {message : data.message, username : data.from, isSender : true,to :data.to});
         } else {
             console.log("User does not exist: " + data.to); 
         }
