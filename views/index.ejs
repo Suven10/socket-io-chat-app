@@ -17,15 +17,21 @@
         <section>
           <div id="change_username">
             <input id="username" type="text" />
-            <button id="send_username" type="button">Change username</button>
+            <button id="send_username" type="button">Connect</button>
+            <button id="disconnect" type="button">Disconnect</button>
+          </div>
+          <div id="disconnect_user" style="display:none">
+              <button id="disconnectUser" type="button">Disconnect</button>
           </div>
         </section>
+        <br/>
         <section id="users-list-sec">
+          <div>
+              <label>Users - </label>
+              <label id="user-cnt">0</label>
+          </div>
           <div class="row" id="users-list"></div>
         </section>
-        <!-- <section id="toname">
-          <input id="to" type="text" />
-        </section> -->
       </div>
       <div id="content-col" class="column">
         <section id="chatroom">

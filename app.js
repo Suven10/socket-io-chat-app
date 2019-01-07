@@ -43,7 +43,7 @@ chat = io.of('/chat').on('connection', (socket) => {
             "socket": socket.id
         };
         console.log("Clients: " + JSON.stringify(clients));
-        chat.emit("userlist",{clients:JSON.stringify(userlist)});
+        chat.volatile.emit("userlist",{clients:JSON.stringify(userlist)});
     })
 
     //listen on new_message
@@ -60,17 +60,21 @@ chat = io.of('/chat').on('connection', (socket) => {
 
     //listen on typing
     socket.on('typing', (data) => {
-    	socket.broadcast.emit('typing', {username : socket.username})
+        //socket.broadcast.emit('typing', {username : socket.username})
+        socket.broadcast.to(clients[data.to].socket).emit('typing', {username : socket.username})
     })
 
     //Removing the socket on disconnect
-    socket.on('disconnect', function() {
+    socket.on('disconnect_user', (data) => {
+        console.log(socket.id);
         for(var name in clients) {
             if(clients[name].socket === socket.id) {
                 delete clients[name];
                 break;
             }
-        }	
+        }
+        console.log("Clients: " + JSON.stringify(clients));
+        chat.volatile.emit("userlist",{clients:JSON.stringify(clients)});	
     })
 })
 
