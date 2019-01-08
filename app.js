@@ -66,24 +66,31 @@ chat = io.of('/chat').on('connection', (socket) => {
 
     //Removing the socket on disconnect
     socket.on('disconnect_user', (data) => {
-        console.log(socket.id);
-        for(var name in clients) {
-            if(clients[name].socket === socket.id) {
-                delete clients[name];
-                break;
-            }
-        }
-        console.log("Clients: " + JSON.stringify(clients));
-        chat.volatile.emit("userlist",{clients:JSON.stringify(clients)});	
+        // var index=userlist.indexOf(data.username);
+        // userlist.splice(index,1);
+        // for(var name in clients) {
+        //     if(clients[name].socket === socket.id) {
+        //         delete clients[name];
+        //         break;
+        //     }
+        // }
+        // console.log("Clients: " + JSON.stringify(clients));
+        chat.volatile.emit("userlist",{clients:JSON.stringify(userlist)});	
     })
+
+    socket.on('reconnect', (attemptNumber) => {
+        console.log("reconnect called");
+      });
+
+    // on reconnection, reset the transports option, as the Websocket
+    // connection may have failed (caused by proxy, firewall, browser, ...)
+    socket.on('reconnect_attempt', () => {
+        socket.io.opts.transports = ['polling', 'websocket'];
+    });
 })
 
 var news = io
   .of('/news')
   .on('connection', function (socket) {
     console.log('New news channel connected')
-    // socket.on('typing', (data) => {
-    //     console.log('New news came')
-    // 	socket.broadcast.emit('typing', {username : 'testuser'})
-    // })
   });
