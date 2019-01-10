@@ -61,7 +61,7 @@ chat = io.of('/chat').on('connection', (socket) => {
     //listen on typing
     socket.on('typing', (data) => {
         //socket.broadcast.emit('typing', {username : socket.username})
-        socket.broadcast.to(clients[data.to].socket).emit('typing', {username : socket.username})
+        socket.broadcast.to(clients[data.to].socket).emit('typing', {username : data.from})
     })
 
     //Removing the socket on disconnect

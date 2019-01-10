@@ -31,6 +31,7 @@ $(function(){
 		console.log(socket.id);
 		chatroom.append("<p class='message'>" + username.val() + ": " + message.val() + "</p>")
 		socket.emit('new_message', {message : message.val(),to :to,from : username.val()})
+		message.val('');
 	})
 
 	//Listen on new_message
@@ -83,7 +84,7 @@ $(function(){
 	})
 	//Emit typing
 	message.bind("keypress", () => {
-		socket.emit('typing',{to:to})
+		socket.emit('typing',{to:to,from:username.val()})
 	})
 
 	//Listen on typing
