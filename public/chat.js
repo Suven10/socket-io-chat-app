@@ -25,6 +25,7 @@ $(function(){
 	//Emit message
 	send_message.click(function(){
 		console.log(socket.id);
+		chatroom.append("<p class='message'>" + username.val() + ": " + message.val() + "</p>")
 		socket.emit('new_message', {message : message.val(),to :to,from : username.val()})
 	})
 

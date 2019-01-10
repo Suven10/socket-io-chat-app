@@ -52,7 +52,7 @@ chat = io.of('/chat').on('connection', (socket) => {
         console.log("Sending: " + data.message + " to " + data.to + " from " + data.from);
         if (clients[data.to]){
             chat.connected[clients[data.to].socket].emit("new_message", {message : data.message, username : data.from, isSender : false});
-            chat.connected[clients[data.from].socket].emit("new_message", {message : data.message, username : data.from, isSender : true});
+            // chat.connected[clients[data.from].socket].emit("new_message", {message : data.message, username : data.from, isSender : true});
         } else {
             console.log("User does not exist: " + data.to); 
         }
@@ -74,7 +74,7 @@ chat = io.of('/chat').on('connection', (socket) => {
             }
         }
         console.log("Clients: " + JSON.stringify(clients));
-        chat.volatile.emit("userlist",{clients:JSON.stringify(clients)});	
+        chat.volatile.emit("userlist",{clients:JSON.stringify(userlist)});	
     })
 })
 
