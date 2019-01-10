@@ -2,7 +2,11 @@
 $(function(){
    	//make connection
 	//var socket = io.connect('http://localhost:3000')
-	var socket = io.connect('http://localhost:3000/chat')
+	var socket = io.connect('http://localhost:3000/chat', {
+        'reconnection': true,
+		'reconnectionDelay': 500,
+		'reconnectionAttempts': 10
+    })
     , news = io.connect('http://localhost:3000/news');
 
 	//buttons and inputs
@@ -51,7 +55,9 @@ $(function(){
 	})
 
 	disconnectUser.click(function(){
-		socket.emit('disconnect_user',{});
+		socket.emit('disconnect_user',{username : username.val()});
+		socket.close();
+		socket.open();
 	})
 
 
